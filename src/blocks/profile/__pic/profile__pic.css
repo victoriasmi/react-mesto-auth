@@ -1,0 +1,25 @@
+.profile__pic {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  z-index: 1;
+  position: relative;
+  float: left;
+  cursor: pointer;
+}
+
+.profile__pic:hover {
+  opacity: 0.2;
+}
+
+.profile__pic:hover + .profile__pic-edit {display: block;} 
+
+
+@media (max-width: 767px) {
+  .profile__pic  {
+    align-self: center;
+  }
+}
