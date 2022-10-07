@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import Main from './Main';
@@ -7,10 +7,10 @@ import ImagePopup from './ImagePopup';
 
 export default function App() {
 
-  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
-  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
-  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
-  const [selectedCard, setSelectedCard] = React.useState(false);
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  const [selectedCard, setSelectedCard] = useState(false);
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -33,14 +33,12 @@ export default function App() {
   }
 
   return (
-    <body className="body">
       <div className="page">
         <Header />
         <Main
           onEditAvatar={handleEditAvatarClick}
           onAddPlace={handleAddPlaceClick}
           onEditProfile={handleEditProfileClick}
-
           handleCardClick={(card) => {
             setSelectedCard(card);
           }}
@@ -51,13 +49,14 @@ export default function App() {
           title="Редактировать профиль"
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
+          buttonText="Сохранить"
           children={
             <>
               <input className="popup__input popup__input_info_name" id="name-input" type="text" name="name" placeholder="Имя"
-                minlength="2" maxlength="40" required />
+                minLength="2" maxLength="40" required />
               <span className="name-input-error error"></span>
               <input className="popup__input popup__input_info_occupation" id="occupation-input" type="text" name="about"
-                placeholder="О Себе" minlength="2" maxlength="200" required />
+                placeholder="О Себе" minLength="2" maxLength="200" required />
               <span className="error occupation-input-error"></span>
             </>
           }
@@ -67,10 +66,11 @@ export default function App() {
           title="Новое место"
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
+          buttonText="Сохранить"
           children={
             <>
               <input className="popup__input popup__input_card_place" id="place-input" type="text" name="name"
-                placeholder="Название" minlength="2" maxlength="30" required />
+                placeholder="Название" minLength="2" maxLength="30" required />
               <span className="place-input-error error"></span>
               <input className="popup__input popup__input_card_link" id="link-input" type="url" name="link" placeholder="Ссылка"
                 required />
@@ -84,6 +84,7 @@ export default function App() {
           title="Обновить аватар"
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
+          buttonText="Сохранить"
           children={
             <>
               <input className="popup__input popup__input_avatar_link" id="avatar-link-input" type="url" name="link"
@@ -99,7 +100,6 @@ export default function App() {
         />
 
       </div>
-    </body>
   );
 }
 
