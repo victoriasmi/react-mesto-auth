@@ -1,7 +1,4 @@
 .profile__pic {
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
   width: 120px;
   height: 120px;
   border-radius: 50%;
@@ -15,7 +12,7 @@
   opacity: 0.2;
 }
 
-.profile__pic:hover + .profile__pic-edit {display: block;} 
+.profile__pic:hover + .profile__pic-edit {display: flex;} 
 
 
 @media (max-width: 767px) {

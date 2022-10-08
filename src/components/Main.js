@@ -1,6 +1,7 @@
 import { api } from '../utils/api';
 import React from 'react';
 import Card from './Card';
+import editAvatarPic from "../images/edit_button.svg"
 
 export default function Main(props) {
   const [userName, setUserName] = React.useState("");
@@ -35,8 +36,8 @@ export default function Main(props) {
       <section className="profile">
         <div className="profile__info-block">
           <div className="profile__info">
-            <img className="profile__pic" style={{ backgroundImage: `url(${userAvatar})` }} alt="аватар" onClick={props.onEditAvatar} />
-            <img className="profile__pic-edit" alt="изменить" />
+            <div className="profile__pic" style={{backgroundImage:`url(${userAvatar})`, backgroundSize:"contain", backgroundRepeat: "no-repeat", backgroundPosition: "center"}} onClick={props.onEditAvatar} alt="аватар"></div>
+            <img className="profile__pic-edit" src={editAvatarPic} alt="изменить" />
           </div>
           <div className="profile__text">
             <div className="profile__edit">
@@ -52,7 +53,7 @@ export default function Main(props) {
             <Card
               key={card._id}
               card={card}
-              onCardClick={props.handleCardClick}
+              onCardClick={props.onCardClick}
             />
           ))}
       </ul>

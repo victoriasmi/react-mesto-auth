@@ -10,7 +10,7 @@ export default function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
-  const [selectedCard, setSelectedCard] = useState(false);
+  const [selectedCard, setSelectedCard] = useState({});
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -29,7 +29,11 @@ export default function App() {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
-    setSelectedCard(false);
+    setSelectedCard({});
+  }
+
+  function handleCardClick(selectedCard){
+    setSelectedCard(selectedCard);
   }
 
   return (
@@ -39,9 +43,7 @@ export default function App() {
           onEditAvatar={handleEditAvatarClick}
           onAddPlace={handleAddPlaceClick}
           onEditProfile={handleEditProfileClick}
-          handleCardClick={(card) => {
-            setSelectedCard(card);
-          }}
+          onCardClick={handleCardClick}
         />
         <Footer />
         <PopupWithForm

@@ -1,6 +1,6 @@
 .profile__pic-edit {
-  background-image: url(../../../images/edit_button.svg);
   display: none;
+  background-repeat: no-repeat;
   position: absolute;
   z-index: 20;
   width: 26px;
@@ -14,5 +14,5 @@
 }
 
 .profile__pic-edit:hover {
-  display: block;
+  display: flex;
 }
