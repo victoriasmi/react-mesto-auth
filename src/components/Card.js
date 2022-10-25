@@ -7,8 +7,9 @@ export default function Card(props) {
   }
 
   function handleLikeClick() {
+    console.log("like");
     props.onCardLike(props.card);
-    props.onCardRemoveLike(props.card);
+    console.log("dislike");
   }
 
   function handleDeleteClick() {

@@ -1,22 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import PopupWithForm from './PopupWithForm';
 
 export default function EditAvatarPopup(props) {
 
-  const [profileAvatar, setProfileAvatar] = useState("");
-  const avatar = React.useRef(null);
-
-  function handleAvatarChange(e){
-    setProfileAvatar(e.target.value);
-  }
+  const avatar = React.useRef("");
 
   function handleSubmit(e) {
     e.preventDefault();
-    const avatarCurrent = avatar.current.value
     props.onUpdateAvatar({
-      avatar: avatarCurrent
+      avatar: avatar.current.value
     });
   }
+
+  useEffect(() => {
+    avatar.current.value = ("");
+  }, [props.isOpen]);
 
   return (
     <PopupWithForm
@@ -26,13 +24,10 @@ export default function EditAvatarPopup(props) {
       isOpen={props.isOpen}
       onClose={props.onClose}
       onSubmit={handleSubmit}
-      children={
-        <>
-          <input className="popup__input popup__input_avatar_link" id="avatar-link-input" type="url" name="link"
-            placeholder="Ссылка" ref={avatar} onChange={handleAvatarChange} required />
-          <span className="avatar-link-input-error error"></span>
-        </>
-      }
-    />
+    >
+      <input className="popup__input popup__input_avatar_link" id="avatar-link-input" type="url" name="link"
+        placeholder="Ссылка" ref={avatar} required />
+      <span className="avatar-link-input-error error"></span>
+    </PopupWithForm>
   );
 }

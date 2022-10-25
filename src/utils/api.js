@@ -74,11 +74,15 @@ class Api {
       .then(res => this._getResponseData(res))
   }
 
-  editAvatar(inputLink) {
+  changeLikeCard(_id, isLiked) {
+    return isLiked ? this.likeCard(_id) : this.removelikeCard(_id)
+  }
+
+  editAvatar(input) {
     return fetch(`${this._baseUrl}/users/me/avatar`, {
       method: "PATCH",
       body: JSON.stringify({
-        avatar: inputLink,
+        avatar: input.avatar,
       }),
       headers: this._headers
     })

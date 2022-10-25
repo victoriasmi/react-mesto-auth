@@ -6,6 +6,9 @@
   position: relative;
   float: left;
   cursor: pointer;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .profile__pic:hover {

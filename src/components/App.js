@@ -1,28 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect } from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import Main from './Main';
-import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
-import Card from './Card';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import { api } from '../utils/api';
 
 export default function App() {
-  const [currentUser, getCurrentUser] = useState([]);
+  const [currentUser, setCurrentUser] = useState([]);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState({});
   const [cards, setCards] = useState([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     api.getProfileInfo()
       .then((userData) => {
-        getCurrentUser(userData);
+        setCurrentUser(userData);
       })
       .catch((err) => {
         console.log(err); // выведем ошибку в консоль
@@ -55,7 +53,7 @@ export default function App() {
   function handleUpdateUser(input) {
     api.editProfileInfo(input)
       .then((data) => {
-        getCurrentUser(data);
+        setCurrentUser(data);
         closeAllPopups();
       })
       .catch((err) => {
@@ -63,10 +61,10 @@ export default function App() {
       })
   }
 
-  function handleUpdateAvatar(inputLink) {
-    api.editAvatar(inputLink)
-      .then((data) => {
-        getCurrentUser(data);
+  function handleUpdateAvatar(input) {
+    api.editAvatar(input)
+      .then((input) => {
+        setCurrentUser(input);
         closeAllPopups();
       })
       .catch((err) => {
@@ -85,36 +83,28 @@ export default function App() {
   }, [])
 
   function handleCardLike(card) {
-    // Снова проверяем, есть ли уже лайк на этой карточке
     const isLiked = card.likes.some(i => i._id === currentUser._id);
 
-    // Отправляем запрос в API и получаем обновлённые данные карточки
-    api.likeCard(card._id, !isLiked).then((newCard) => {
+    api.changeLikeCard(card._id, !isLiked).then((newCard) => {
       setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
-    });
-  }
-
-  function handleCardRemoveLike(card) {
-    // Снова проверяем, есть ли уже лайк на этой карточке
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
-
-    // Отправляем запрос в API и получаем обновлённые данные карточки
-    api.removelikeCard(card._id, isLiked).then((newCard) => {
-      setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
-    });
+    })
+    .catch((err) => {
+      console.log(err); 
+    })
   }
 
   function handleCardDelete(card) {
     api.deleteCard(card._id).then(() => {
-      setCards((state) => state.filter(c => {return c._id !== card._id}));
-      console.log(card._id);
+      setCards((state) => state.filter(c => {return c._id !== card._id}))
+      .catch((err) => {
+        console.log(err); // выведем ошибку в консоль
+      })
     });
   }
 
   function handleAddPlaceSubmit(input) {
     api.createCard(input)
       .then((newCard) => {
-        console.log(newCard);
         setCards([newCard, ...cards]);
         closeAllPopups();
       })
@@ -134,7 +124,6 @@ export default function App() {
           onCardClick={handleCardClick}
           cards={cards}
           onCardLike={handleCardLike}
-          onCardRemoveLike={handleCardRemoveLike}
           onCardDelete={handleCardDelete}
         />
         <Footer />

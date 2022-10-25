@@ -1,5 +1,4 @@
-import { api } from '../utils/api';
-import React, { useState } from 'react';
+import React from 'react';
 import Card from './Card';
 import editAvatarPic from "../images/edit_button.svg"
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
@@ -13,7 +12,7 @@ export default function Main(props) {
       <section className="profile">
         <div className="profile__info-block">
           <div className="profile__info">
-            <div className="profile__pic" style={{ backgroundImage: `url(${currentUser.avatar})`, backgroundSize: "contain", backgroundRepeat: "no-repeat", backgroundPosition: "center" }} alt="аватар" onClick={props.onEditAvatar}></div>
+            <div className="profile__pic" style={{ backgroundImage: `url(${currentUser.avatar})`}} alt="аватар" onClick={props.onEditAvatar}></div>
             <img className="profile__pic-edit" src={editAvatarPic} alt="изменить" />
           </div>
           <div className="profile__text">
