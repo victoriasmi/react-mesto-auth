@@ -12,8 +12,8 @@ export default function Main(props) {
       <section className="profile">
         <div className="profile__info-block">
           <div className="profile__info">
-            <div className="profile__pic" style={{ backgroundImage: `url(${currentUser.avatar})`}} alt="аватар" onClick={props.onEditAvatar}></div>
-            <img className="profile__pic-edit" src={editAvatarPic} alt="изменить" />
+            <div className="profile__pic" style={{ backgroundImage: `url(${currentUser.avatar})`}} alt="аватар" ></div>
+            <img className="profile__pic-edit" src={editAvatarPic} alt="изменить" onClick={props.onEditAvatar} />
           </div>
           <div className="profile__text">
             <div className="profile__edit">

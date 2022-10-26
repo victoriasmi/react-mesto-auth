@@ -61,10 +61,10 @@ export default function App() {
       })
   }
 
-  function handleUpdateAvatar(input) {
-    api.editAvatar(input)
-      .then((input) => {
-        setCurrentUser(input);
+  function handleUpdateAvatar(avatar) {
+    api.editAvatar(avatar)
+      .then((userData) => {
+        setCurrentUser(userData);
         closeAllPopups();
       })
       .catch((err) => {

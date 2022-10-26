@@ -4,18 +4,13 @@
   border-radius: 50%;
   z-index: 1;
   position: relative;
-  float: left;
   cursor: pointer;
-  background-size: contain;
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
 }
 
-.profile__pic:hover {
-  opacity: 0.2;
-}
-
-.profile__pic:hover + .profile__pic-edit {display: flex;} 
+.profile__pic:hover + .profile__pic-edit {display: flex} 
 
 
 @media (max-width: 767px) {
