@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import InfoTooltip from './InfoTooltip';
 
 export default function Login(props) {
@@ -14,15 +14,9 @@ export default function Login(props) {
     setPassword(e.target.value);
   }
 
-  const resetForm = useCallback(() => {
-    setEmail("");//только 1 вызов
-    setPassword("");
-  }, [])
-
   function handleLogin(e) {
     e.preventDefault();
     props.onLogin(email, password)
-      .then(resetForm)
   }
 
   return (

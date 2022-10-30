@@ -24,7 +24,6 @@ export default function App() {
   const [cards, setCards] = useState([]);
   const [email, setEmail] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
-  const [userDataOpen, setUserDataOpen] = useState({});
   const [isSuccess, setIsSuccess] = useState(false);
   const history = useHistory();
 
@@ -128,45 +127,14 @@ export default function App() {
   function handleRegisterSubmit(email, password) {
     auth.register(email, password)
       .then(() => {
-          setIsSuccess(true);
-          setIsInfoTooltipOpen(true);
-          history.push('/signin');
+        setIsSuccess(true);
+        setIsInfoTooltipOpen(true);
+        history.push('/signin');
       })
       .catch((err) => {
         console.log(err);
         setIsSuccess(false);
         setIsInfoTooltipOpen(true);
-      })
-  }
-
-  function authInfo(token) {
-    auth.getInfo(token)
-      .then((data) => {
-        const userData = data.data;
-        setLoggedIn(true);
-        setUserDataOpen(userData);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-  }
-
-  function handleLoginSubmit(email, password) {
-    auth.authorize(email, password)
-      .then((res) => {
-        if (res.token) {
-          setLoggedIn(true);
-          localStorage.setItem("token", res.token);
-          setEmail(userDataOpen.email);
-          history.push('/');
-        }
-        else {
-          setIsSuccess(false);
-          setIsInfoTooltipOpen(true);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
       })
   }
 
@@ -180,9 +148,36 @@ export default function App() {
   useEffect(() => {
     if (loggedIn) {
       history.push("/");
-      setEmail(userDataOpen.email);
     }
   }, [loggedIn]);
+
+  function authInfo(token) {
+    auth.getInfo(token)
+      .then((data) => {
+        setEmail(data.data.email);
+        setLoggedIn(true);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  }
+
+  function handleLoginSubmit(email, password) {
+    auth.authorize(email, password)
+      .then((res) => {
+        if (res.token) {
+          setEmail(email);
+          setLoggedIn(true);
+          localStorage.setItem("token", res.token);
+          history.push('/');
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsSuccess(false);
+        setIsInfoTooltipOpen(true);
+      })
+  }
 
   return (
     <div className="page">

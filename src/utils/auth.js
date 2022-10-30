@@ -3,6 +3,13 @@ class Auth {
     this._baseUrl = baseUrl;
   }
 
+  _getResponseData(res) {
+    if (!res.ok) {
+      return Promise.reject(`Ошибка: ${res.status}`);
+    }
+    return res.json();
+  }
+
   register(email, password) {
     return fetch(`${this._baseUrl}/signup`, {
       method: 'POST',
@@ -12,12 +19,7 @@ class Auth {
       },
       body: JSON.stringify({ email, password })
     })
-      .then((res) => {
-        if (!res.ok) {
-          return Promise.reject(`Ошибка: ${res.status}`);
-        }
-        return res.json();
-      })
+      .then(res => this._getResponseData(res))
   }
 
   authorize(email, password) {
@@ -29,9 +31,7 @@ class Auth {
       },
       body: JSON.stringify({ email, password })
     })
-      .then((response) => {
-        return response.json();
-      })
+      .then(res => this._getResponseData(res))
   }
 
   getInfo(token) {
@@ -44,9 +44,7 @@ class Auth {
       }
       // body: JSON.stringify({ token:token })
     })
-      .then((response) => {
-        return response.json();
-      })
+      .then(res => this._getResponseData(res))
   }
 }
 

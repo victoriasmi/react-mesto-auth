@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import InfoTooltip from './InfoTooltip';
 
@@ -15,15 +15,9 @@ export default function Register(props) {
     setPassword(e.target.value);
   }
 
-  const resetForm = useCallback(() => {
-    setEmail("");//только 1 вызов
-    setPassword("");
-  }, [])
-
   function handleRegister(e) {
     e.preventDefault();
     props.onRegister(email, password)
-      .then(resetForm)
   }
 
   return (
