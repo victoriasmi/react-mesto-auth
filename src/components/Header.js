@@ -4,7 +4,7 @@ import { Link, Route, Switch } from "react-router-dom";
 import logo from '../images/logo.svg';
 
 
-export default function Header(props) {
+export default function Header({ email }) {
   const history = useHistory();
 
   function handleLogOut() {
@@ -18,17 +18,17 @@ export default function Header(props) {
       <Switch>
         <Route path="/signin">
           <div className="header__info">
-            <Link className="header__link" to="/signup">{props.title}</Link>
+            <Link className="header__link" to="/signup">Зарегистрироваться</Link>
           </div>
         </Route>
         <Route path="/signup">
           <div className="header__info">
-            <Link className="header__link" to="/signin">{props.title}</Link>
+            <Link className="header__link" to="/signin">Войти</Link>
           </div>
         </Route>
         <Route path="/">
           <div className="header__info">
-            <p className="header__paragraph">{props.email}</p>
+            <p className="header__paragraph">{email}</p>
             <Link
               className="header__link"
               to="/signin"

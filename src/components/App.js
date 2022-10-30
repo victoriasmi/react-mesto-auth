@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Route, Router, Switch, Redirect, useHistory } from 'react-router-dom';
+import { Route, Switch, useHistory } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
 import Main from './Main';
@@ -24,7 +24,8 @@ export default function App() {
   const [cards, setCards] = useState([]);
   const [email, setEmail] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
-  const [userData, setUserData] = useState("");
+  const [userDataOpen, setUserDataOpen] = useState({});
+  const [isSuccess, setIsSuccess] = useState(false);
   const history = useHistory();
 
   useEffect(() => {
@@ -33,7 +34,7 @@ export default function App() {
         setCurrentUser(userData);
       })
       .catch((err) => {
-        console.log(err); // выведем ошибку в консоль
+        console.log(err);
       });
   }, []);
 
@@ -68,7 +69,7 @@ export default function App() {
         closeAllPopups();
       })
       .catch((err) => {
-        console.log(err); // выведем ошибку в консоль
+        console.log(err);
       })
   }
 
@@ -79,7 +80,7 @@ export default function App() {
         closeAllPopups();
       })
       .catch((err) => {
-        console.log(err); // выведем ошибку в консоль
+        console.log(err);
       })
   }
 
@@ -89,7 +90,7 @@ export default function App() {
         setCards(cardsData);
       })
       .catch((err) => {
-        console.log(err); // выведем ошибку в консоль
+        console.log(err);
       });
   }, [])
 
@@ -108,7 +109,7 @@ export default function App() {
     api.deleteCard(card._id).then(() => {
       setCards((state) => state.filter(c => { return c._id !== card._id }))
         .catch((err) => {
-          console.log(err); // выведем ошибку в консоль
+          console.log(err);
         })
     });
   }
@@ -120,28 +121,21 @@ export default function App() {
         closeAllPopups();
       })
       .catch((err) => {
-        console.log(err); // выведем ошибку в консоль
+        console.log(err);
       })
   }
 
   function handleRegisterSubmit(email, password) {
     auth.register(email, password)
-      .then((data) => {
-        if (data.token) {
-          history.push('/');
-        }
+      .then(() => {
+          setIsSuccess(true);
+          setIsInfoTooltipOpen(true);
+          history.push('/signin');
       })
-  }
-
-  function handleLoginSubmit(email, password) {
-    auth.authorize(email, password)
-      .then((res) => {
-        if (!res) {
-        }
-        if (res.token) {
-          setLoggedIn(true);
-          localStorage.setItem("token", res.token);
-        }
+      .catch((err) => {
+        console.log(err);
+        setIsSuccess(false);
+        setIsInfoTooltipOpen(true);
       })
   }
 
@@ -150,7 +144,29 @@ export default function App() {
       .then((data) => {
         const userData = data.data;
         setLoggedIn(true);
-        setEmail(userData.email);
+        setUserDataOpen(userData);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  }
+
+  function handleLoginSubmit(email, password) {
+    auth.authorize(email, password)
+      .then((res) => {
+        if (res.token) {
+          setLoggedIn(true);
+          localStorage.setItem("token", res.token);
+          setEmail(userDataOpen.email);
+          history.push('/');
+        }
+        else {
+          setIsSuccess(false);
+          setIsInfoTooltipOpen(true);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
       })
   }
 
@@ -164,12 +180,9 @@ export default function App() {
   useEffect(() => {
     if (loggedIn) {
       history.push("/");
+      setEmail(userDataOpen.email);
     }
   }, [loggedIn]);
-
-  function handleInfoToolTip() {
-    setIsInfoTooltipOpen(true);
-  }
 
   return (
     <div className="page">
@@ -177,37 +190,31 @@ export default function App() {
         <Switch>
           <Route path="/signup">
             <Header
-              title="Войти"
+              email={email}
             />
             <Register
               onRegister={handleRegisterSubmit}
               isOpen={isInfoTooltipOpen}
-              handleTooltip={handleInfoToolTip}
+              isSuccess={isSuccess}
               onClose={closeAllPopups}
-              loggedIn={loggedIn}
             />
             <Footer />
           </Route>
 
           <Route path="/signin">
             <Header
-              title="Зарегистрироваться"
+              email={email}
             />
             <Login
               onLogin={handleLoginSubmit}
               isOpen={isInfoTooltipOpen}
-              handleTooltip={handleInfoToolTip}
+              isSuccess={isSuccess}
               onClose={closeAllPopups}
-              loggedIn={loggedIn}
             />
             <Footer />
           </Route>
 
           <Route path="/" >
-            {/* <ProtectedRoute 
-            loggedIn={loggedIn}
-          /> */}
-            {/* {loggedIn ? <Redirect to="/" /> : <Redirect to="/signin" />} */}
             <Header
               email={email}
             />

@@ -12,8 +12,11 @@ class Auth {
       },
       body: JSON.stringify({ email, password })
     })
-      .then((response) => {
-        return response.json();
+      .then((res) => {
+        if (!res.ok) {
+          return Promise.reject(`Ошибка: ${res.status}`);
+        }
+        return res.json();
       })
   }
 

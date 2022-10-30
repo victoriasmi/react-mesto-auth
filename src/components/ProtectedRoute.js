@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import React from 'react';
+import { Route, Redirect } from 'react-router-dom';
 
 const ProtectedRoute = ({ component: Component, ...props }) => {
   return (
