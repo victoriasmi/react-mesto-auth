@@ -1,11 +1,8 @@
 {
-  "name": "mesto-react-auth",
+  "name": "react-mesto-auth",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://victoriasmi.github.io/react-mesto-auth",
-  "devDependencies": {  
-    "gh-pages": "^4.0.0" 
-  }, 
+  "homepage": "https://victoriasmi.github.io/react-mesto-auth/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -21,7 +18,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "predeploy": "npm run build", 
+    "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
@@ -41,5 +38,21 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.18.13",
+    "@babel/preset-env": "^7.18.10",
+    "autoprefixer": "^10.4.8",
+    "babel-loader": "^8.2.5",
+    "clean-webpack-plugin": "^4.0.0",
+    "css-loader": "^6.7.1",
+    "cssnano": "^5.1.13",
+    "gh-pages": "^4.0.0",
+    "html-webpack-plugin": "^5.5.0",
+    "mini-css-extract-plugin": "^2.6.1",
+    "postcss-loader": "^7.0.1",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.10.0"
   }
 }
